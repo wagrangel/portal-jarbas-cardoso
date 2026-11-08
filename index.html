@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Portal Jarbas Cardoso</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+
+/* Layout: coluna única de ~760px; faixa do prédio no topo, abas, conteúdo; recibo como canhoto destacável */
+:root{
+  --bg:#EEF2F1; --surface:#FFFFFF; --ink:#16211F; --muted:#5B6B67; --line:#D3DDDA;
+  --accent:#0E6656; --accent-ink:#FFFFFF; --accent-soft:#DCEDE8;
+  --warn:#A35A00; --warn-soft:#FBEBD3; --ok:#2E7D4F; --ok-soft:#DDF0E3;
+  --f-display:"Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1614; --surface:#18221F; --ink:#E6EEEB; --muted:#9AAAA5; --line:#2C3A36;
+  --accent:#4FC2A8; --accent-ink:#06211B; --accent-soft:#163A32;
+  --warn:#F2B25C; --warn-soft:#3A2A12; --ok:#6CD394; --ok-soft:#173826; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1614; --surface:#18221F; --ink:#E6EEEB; --muted:#9AAAA5; --line:#2C3A36;
+  --accent:#4FC2A8; --accent-ink:#06211B; --accent-soft:#163A32;
+  --warn:#F2B25C; --warn-soft:#3A2A12; --ok:#6CD394; --ok-soft:#173826; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:780px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 96px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Cabeçalho */
+.hero{display:grid;gap:14px;padding:20px;border-radius:14px;background:var(--accent);color:var(--accent-ink)}
+.hero .eyebrow{color:inherit;opacity:.8}
+.hero h1{font-size:clamp(24px,5vw,32px)}
+.hero-row{display:flex;flex-wrap:wrap;gap:18px 32px;align-items:flex-end}
+.big{font-family:var(--f-display);font-size:clamp(34px,8vw,48px);font-weight:700;line-height:1}
+.hero small{display:block;opacity:.85;font-size:13px}
+.pix{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:rgba(255,255,255,.14);border-radius:10px;padding:8px 10px}
+.pix code{font-family:var(--f-mono);font-size:14px;word-break:break-all}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;font-weight:600;display:inline-flex;gap:6px;align-items:center;text-decoration:none;color:var(--ink)}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.ghost{background:transparent}
+.btn.sm{padding:5px 10px;font-size:13px}
+.btn.danger{color:var(--warn)}
+.hero .btn{background:var(--accent-ink);color:var(--accent);border-color:transparent}
+
+/* Abas */
+.tabs{display:flex;gap:4px;overflow-x:auto;margin:18px 0 14px;border-bottom:1px solid var(--line)}
+.tab{border:0;background:none;padding:10px 12px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.panel{display:grid;gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.head-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+
+/* Tabela de despesas */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:8px 6px;border-bottom:1px solid var(--line)}
+td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+td.r,th.r{text-align:right;white-space:nowrap}
+tr.total td{font-weight:700;border-bottom:0;padding-top:12px}
+tr.div td{color:var(--muted);border-bottom:0}
+tr.div td.r{color:var(--accent);font-weight:700;font-size:16px}
+td input{width:100%;min-width:90px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg)}
+.note{font-size:13px;color:var(--muted)}
+
+/* Avisos */
+.avisos{display:grid;gap:10px}
+.aviso{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;padding:14px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+.aviso .ic{font-size:22px;line-height:1.2;grid-row:span 3}
+.aviso h3{font-size:17px}
+.aviso p{margin:0;white-space:pre-line}
+.aviso.urg{border-color:var(--warn);background:var(--warn-soft)}
+.aviso.res{opacity:.6}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:99px;padding:2px 8px;margin-right:6px}
+.pill.urg{background:var(--warn);color:var(--surface)}
+.pill.res{background:var(--ok-soft);color:var(--ok)}
+.pill.pago{background:var(--ok);color:var(--surface)}
+.pill.dev{background:var(--warn);color:var(--surface)}
+.pill.st{font-size:13px;padding:4px 12px;margin:0}
+.pagos{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:12px}
+.pg{display:grid;gap:2px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px}
+.pg span{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--warn)}
+.pg.on{background:var(--ok-soft);border-color:var(--ok)}
+.pg.on span{color:var(--ok)}
+.meta{font-size:12px;color:var(--muted)}
+
+/* Recibo */
+.recibo{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.recibo-top{padding:18px 20px;display:grid;gap:10px}
+.recibo-top h2{font-size:18px;letter-spacing:.04em;text-transform:uppercase}
+.recibo-line{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px dotted var(--line);padding-bottom:6px}
+.recibo-cut{border-top:2px dashed var(--line);position:relative;margin:0 12px}
+.recibo-cut span{position:absolute;top:-10px;left:0;background:var(--surface);padding-right:6px;font-size:12px;color:var(--muted)}
+.recibo-foot{padding:14px 20px;display:grid;gap:4px;font-size:14px}
+.sign{margin-top:18px;border-top:1px solid var(--ink);padding-top:4px;max-width:300px;font-size:13px}
+
+/* Histórico */
+.hist{display:grid;gap:8px}
+.hist button{display:grid;grid-template-columns:1fr auto;gap:2px 12px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.hist button:hover{border-color:var(--accent)}
+.hist b{font-family:var(--f-display);font-size:17px;text-transform:capitalize}
+
+/* Formulários */
+.field{display:grid;gap:4px}
+.field label{font-size:13px;font-weight:600;color:var(--muted)}
+.field input,.field select,.field textarea{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);width:100%}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px}
+pre.zap{white-space:pre-wrap;font-family:var(--f-body);font-size:14px;background:var(--bg);border-radius:8px;padding:12px;margin:0;max-height:340px;overflow:auto}
+
+/* Barra de publicação */
+.bar{position:fixed;left:0;right:0;bottom:0;padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:var(--ink);color:var(--bg);display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;z-index:20}
+.bar .btn{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.adminbadge{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--accent-soft);border-radius:10px;padding:10px 14px;margin-top:14px;font-size:14px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(80px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:14px;z-index:30}
+.empty{padding:24px;text-align:center;color:var(--muted)}
+.modal{position:fixed;inset:0;background:rgba(10,20,18,.6);z-index:40;display:grid;place-items:center;padding:16px max(16px,env(safe-area-inset-right,0px)) 16px max(16px,env(safe-area-inset-left,0px));overflow:auto}
+.modal-box{background:var(--surface);color:var(--ink);border-radius:12px;padding:16px;max-width:640px;width:100%;display:grid;gap:12px}
+.modal-box img{width:100%;border:1px solid var(--line);border-radius:8px;background:#fff}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+@media print{
+  @page{size:A4;margin:14mm}
+  body{background:#fff!important}
+  .wrap{max-width:none;padding:0}
+  .wrap>*:not(.panel),.panel>*:not(.recibo),.bar,.toast{display:none!important}
+  .recibo{border:0;border-radius:0}
+  .recibo *{color:#111!important}
+  .pill.st{-webkit-print-color-adjust:exact;print-color-adjust:exact;color:#fff!important}
+  .pill.pago{background:#2E7D4F!important}.pill.dev{background:#A35A00!important}
+}</style>
+</head>
+<body>
+<div class="wrap" id="app"><p class="empty">Carregando o portal…</p></div>
+<script>
+(function(){
+var FONTS='<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">';
+var RESET=':root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}';
+var MESES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+
+var state=null;
+var GH=(function(){var m=location.hostname.match(/^([^.]+)\.github\.io$/),seg=location.pathname.split('/').filter(Boolean)[0];return {owner:m?m[1]:'wagrangel',repo:(m&&seg&&!/\.html?$/.test(seg))?seg:'portal-jarbas-cardoso',branch:'main'}})();
+function getToken(){try{return localStorage.getItem('gh_token')||''}catch(e){return ''}}
+var API='https://api.github.com/repos/'+GH.owner+'/'+GH.repo+'/contents/dados.json';
+var ui={tab:'mes',sel:null,edit:false,dirty:false,canEdit:false,artifact:null,downloads:null,apto:null,saving:false,editAviso:null,loginErro:'',acesso:null,aptoErro:'',novos:{}};
+try{ui.acesso=JSON.parse(localStorage.getItem('acesso')||'null')}catch(e){}
+function hashApto(apto,cod){return sha256('jc:'+apto+':'+cod)}
+var LOGIN_HASH='03ba8377559b858b003d560e9852204d842525a1571bb10811d5a6cd4869daa5';
+try{ui.apto=localStorage.getItem('apto')||null}catch(e){}
+try{if(sessionStorage.getItem('colab')===LOGIN_HASH)ui.edit=true}catch(e){}
+function sha256(txt){return crypto.subtle.digest('SHA-256',new TextEncoder().encode(txt)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return x.toString(16).padStart(2,'0')}).join('')})}
+
+var app=document.getElementById('app');
+function $(s,r){return (r||document).querySelector(s)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function brl(v){return (Number(v)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function dmy(iso,short){if(!iso)return '';var p=iso.split('-');return p[2]+'/'+p[1]+'/'+(short?p[0].slice(2):p[0])}
+function nomeMes(id,curto){var p=id.split('-');var m=MESES[+p[1]-1];return curto?m+'/'+p[0].slice(2):m+' de '+p[0]}
+function mesesOrd(){return state.meses.slice().sort(function(a,b){return a.id<b.id?1:-1})}
+function mesAtual(){var o=mesesOrd();if(!o.length)return null;if(ui.sel){for(var i=0;i<o.length;i++)if(o[i].id===ui.sel)return o[i]}return o[0]}
+function total(m){return m.despesas.reduce(function(s,x){return s+(Number(x.v)||0)},0)}
+function exato(m){var n=state.config.aptos.length||1;return total(m)/n}
+function cobrado(m){return m.valorCobrado!=null&&m.valorCobrado!==''?Number(m.valorCobrado):Math.round(exato(m))}
+function avisosAtivos(){return state.avisos.filter(function(a){return a.status!=='resolvido'})}
+function sujo(){ui.dirty=true}
+
+function toast(msg){var t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove()},2200)}
+function copiar(txt,ok){try{navigator.clipboard.writeText(txt).then(function(){toast(ok||'Copiado')},function(){fallbackCopy(txt,ok)})}catch(e){fallbackCopy(txt,ok)}}
+function fallbackCopy(txt,ok){var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast(ok||'Copiado')}catch(e){toast('Selecione o texto e copie manualmente')}ta.remove()}
+
+/* ---------- textos gerados ---------- */
+function textoZap(m){
+  var c=state.config,L=[];
+  L.push('*'+c.predio+'*');
+  L.push('Rateio de '+nomeMes(m.id,true));
+  L.push('');
+  m.despesas.forEach(function(x){L.push('• '+x.d+(x.venc?' (venc. '+dmy(x.venc,true)+')':'')+': '+brl(x.v))});
+  L.push('');
+  L.push('*Total: '+brl(total(m))+'*');
+  L.push('Dividido por '+c.aptos.length+' aptos: *'+brl(cobrado(m))+'*');
+  L.push('');
+  L.push('O valor do condomínio é *'+brl(cobrado(m))+'* e o vencimento será até *'+dmy(m.venc)+'*.');
+  L.push('PIX: '+c.pix+' ('+c.banco+')');
+  var av=avisosAtivos();
+  if(av.length){L.push('');L.push('📢 *Pessoal, alguns avisos importantes:*');L.push('');
+    av.forEach(function(a){L.push((a.icone?a.icone+' ':'')+'*'+a.titulo+'*'+(a.urgente?' (urgente)':''));L.push(a.texto);L.push('')});
+    L.push('Obrigado pela colaboração! 🙏')}
+  return L.join('\n');
+}
+function textoRecibo(m,apto){
+  var c=state.config;
+  return 'RECIBO DE RATEIO CONDOMÍNIO\n'+c.predio+'\nSituação: '+((m.pagos||{})[apto]?'PAGO':'DEVENDO')+'\n\nRecebi do condômino do Apto. '+apto+' a quantia de '+brl(cobrado(m))+', referente às despesas de condomínio do mês de '+nomeMes(m.id,true)+', com vencimento em até '+dmy(m.venc)+'.\n\n'+c.colaborador+' (Colaborador, Apto. '+c.aptoColab+')';
+}
+
+/* ---------- render ---------- */
+function render(){
+  if(!state)return;
+  var m=mesAtual(),c=state.config;
+  var h='';
+  h+='<header class="hero"><div><div class="eyebrow">Portal do condomínio</div><h1>'+esc(c.predio)+'</h1></div>';
+  if(m){
+    h+='<div class="hero-row"><div><small>Rateio de '+esc(nomeMes(m.id))+' · valor por apto</small><div class="big num">'+brl(cobrado(m))+'</div></div>'+
+       '<div><small>Vencimento até</small><div style="font-family:var(--f-display);font-size:24px;font-weight:700">'+dmy(m.venc)+'</div></div></div>';
+    h+='<div class="pix"><span class="eyebrow" style="opacity:.9">PIX</span><code>'+esc(c.pix)+'</code><span style="font-size:13px;opacity:.85">'+esc(c.banco)+'</span><button class="btn sm" data-a="copiapix">Copiar chave</button></div>';
+  }else h+='<p>Nenhum rateio lançado ainda.</p>';
+  h+='</header>';
+
+  if(ui.edit){
+    h+='<div class="adminbadge"><span><b>Modo colaborador ligado.</b> Edite e depois publique para os moradores verem.</span>'+
+       '<button class="btn sm" data-a="sair">Sair</button></div>';
+  }
+
+  var tabs=[['mes','Rateio do mês'],['recibo','Meu recibo'],['avisos','Avisos ('+avisosAtivos().length+')'],['historico','Histórico']];
+  if(ui.edit){tabs.push(['zap','Mensagem WhatsApp']);tabs.push(['config','Configurações'])}
+  h+='<nav class="tabs" role="tablist">'+tabs.map(function(t){return '<button class="tab" role="tab" data-tab="'+t[0]+'" aria-selected="'+(ui.tab===t[0])+'">'+t[1]+'</button>'}).join('')+'</nav>';
+  h+='<section class="panel">'+({mes:pMes,recibo:pRecibo,avisos:pAvisos,historico:pHist,zap:pZap,config:pConfig,login:pLogin}[ui.tab]||pMes)(m)+'</section>';
+  if(!ui.edit&&ui.tab!=='login') h+='<p style="text-align:center;margin-top:28px"><button class="btn sm ghost" data-a="abrirlogin">Acesso do colaborador</button></p>';
+  if(ui.dirty) h+='<div class="bar"><span>Você tem alterações não publicadas.</span><button class="btn" data-a="publicar">'+(ui.saving?'Publicando…':'Publicar para os moradores')+'</button></div>';
+  app.innerHTML=h;
+}
+
+function pMes(m){
+  if(!m) return '<div class="card empty">Nenhum mês lançado.'+(ui.edit?'<br><br><button class="btn primary" data-a="novomes">Lançar primeiro mês</button>':'')+'</div>';
+  var c=state.config,h='<div class="card"><div class="head-row"><div><div class="eyebrow">Despesas referentes ao mês</div><h2 style="text-transform:capitalize">'+esc(nomeMes(m.id))+'</h2></div>';
+  if(ui.edit) h+='<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" data-a="novomes">+ Novo mês</button><button class="btn sm danger" data-a="excluirmes">Excluir mês</button></div>';
+  h+='</div><div class="tbl-wrap" style="margin-top:12px"><table><thead><tr><th>Descrição</th><th>Vencimento</th><th class="r">Valor</th>'+(ui.edit?'<th></th>':'')+'</tr></thead><tbody>';
+  m.despesas.forEach(function(x,i){
+    if(ui.edit) h+='<tr><td><input id="d-'+i+'" data-f="d" data-i="'+i+'" value="'+esc(x.d)+'" aria-label="Descrição"></td><td><input id="v-'+i+'" type="date" data-f="venc" data-i="'+i+'" value="'+esc(x.venc)+'" aria-label="Vencimento"></td><td class="r"><input id="val-'+i+'" type="number" step="0.01" inputmode="decimal" data-f="v" data-i="'+i+'" value="'+(x.v||'')+'" style="text-align:right;max-width:120px" aria-label="Valor"></td><td><button class="btn sm ghost danger" data-a="remdesp" data-i="'+i+'" aria-label="Remover">✕</button></td></tr>';
+    else h+='<tr><td>'+esc(x.d)+'</td><td class="num">'+dmy(x.venc,true)+'</td><td class="r num">'+brl(x.v)+'</td></tr>';
+  });
+  if(ui.edit) h+='<tr><td colspan="4"><button class="btn sm" data-a="adddesp">+ Adicionar despesa</button></td></tr>';
+  var cols=ui.edit?'<td></td>':'';
+  h+='<tr class="total"><td colspan="2">Valor total</td><td class="r num" id="tot">'+brl(total(m))+'</td>'+cols+'</tr>';
+  h+='<tr class="div"><td colspan="2">Valor do condomínio dividido por '+c.aptos.length+' aptos</td><td class="r num" id="cob">'+brl(cobrado(m))+'</td>'+cols+'</tr>';
+  h+='</tbody></table></div>';
+  if(ui.edit){
+    h+='<div class="grid2" style="margin-top:14px"><div class="field"><label for="venc-cond">Vencimento do condomínio</label><input id="venc-cond" type="date" data-m="venc" value="'+esc(m.venc)+'"></div>'+
+       '<div class="field"><label for="cobr">Valor cobrado por apto (R$)</label><input id="cobr" type="number" step="0.01" data-m="valorCobrado" value="'+cobrado(m)+'"></div></div>'+
+       '<p class="note" id="exato">Valor exato da divisão: '+brl(exato(m))+'. <button class="btn sm ghost" data-a="arred">Usar arredondado</button></p>';
+  }else if(Math.abs(exato(m)-cobrado(m))>0.004){
+    h+='<p class="note">Divisão exata: '+brl(exato(m))+', arredondado para '+brl(cobrado(m))+'.</p>';
+  }
+  h+='</div>';
+  var av=avisosAtivos();
+  if(av.length) h+='<div><div class="eyebrow" style="margin-bottom:8px">Avisos em aberto</div><div class="avisos">'+av.map(cardAviso).join('')+'</div></div>';
+  return h;
+}
+
+function pRecibo(m){
+  if(!m) return '<div class="card empty">Ainda não há rateio para gerar recibo.</div>';
+  var c=state.config,cods=c.codigos||{},apto,h;
+  if(ui.edit){
+    apto=ui.apto&&c.aptos.indexOf(ui.apto)>=0?ui.apto:null;
+    h='<div class="card"><div class="field" style="max-width:260px"><label for="apto">Ver recibo do apartamento</label><select id="apto" data-a="apto"><option value="">Escolha…</option>'+
+      c.aptos.map(function(a){return '<option'+(a===apto?' selected':'')+'>'+esc(a)+'</option>'}).join('')+'</select></div>'+
+      '<p class="note" style="margin:8px 0 0">Recibo de '+esc(nomeMes(m.id))+'. Para meses anteriores, abra o Histórico.</p></div>';
+  }else{
+    var ac=ui.acesso;
+    apto=ac&&c.aptos.indexOf(ac.apto)>=0&&cods[ac.apto]&&cods[ac.apto]===ac.hash?ac.apto:null;
+    if(!apto) return '<form class="card" id="form-apto" style="max-width:400px;display:grid;gap:12px"><div><div class="eyebrow">Meu recibo</div><h2 style="font-size:20px">Acesse o recibo do seu apartamento</h2></div>'+
+      '<div class="field"><label for="ap-sel">Apartamento</label><select id="ap-sel" required><option value="">Escolha…</option>'+c.aptos.map(function(a){return '<option>'+esc(a)+'</option>'}).join('')+'</select></div>'+
+      '<div class="field"><label for="ap-cod">Código de acesso</label><input id="ap-cod" inputmode="numeric" autocomplete="off" maxlength="8" required></div>'+
+      (ui.aptoErro?'<p class="note" style="color:var(--warn);margin:0">'+esc(ui.aptoErro)+'</p>':'')+
+      '<div><button class="btn primary" type="submit">Ver meu recibo</button></div><p class="note" style="margin:0">Cada apartamento tem um código próprio, entregue pelo colaborador. Este aparelho lembra o acesso depois da primeira vez.</p></form>';
+    h='<div class="card head-row"><div><div class="eyebrow">Seu apartamento</div><b style="font-size:18px">Apto. '+esc(apto)+'</b><div class="note">Recibo de '+esc(nomeMes(m.id))+'</div></div><button class="btn sm" data-a="sairapto">Sair deste apartamento</button></div>';
+  }
+  var pg=m.pagos||{};
+  if(ui.edit){
+    var np=c.aptos.filter(function(a){return pg[a]}).length;
+    h+='<div class="card"><div class="eyebrow">Pagamentos de '+esc(nomeMes(m.id,true))+'</div><h3 style="font-size:18px">'+np+' de '+c.aptos.length+' pagos</h3><div class="pagos">'+
+      c.aptos.map(function(a){return '<button class="pg'+(pg[a]?' on':'')+'" data-a="pago" data-apto="'+esc(a)+'"><b>Apto '+esc(a)+'</b><span>'+(pg[a]?'Pago':'Devendo')+'</span></button>'}).join('')+
+      '</div><p class="note" style="margin:10px 0 0">Toque no apartamento para alternar entre pago e devendo. Depois publique.</p></div>';
+  }
+  if(!apto) return h+'<div class="card empty">Escolha o apartamento para ver o recibo.</div>';
+  h+='<article class="recibo"><div class="recibo-top"><div class="head-row"><div class="eyebrow">'+esc(c.predio)+' · Apto. '+esc(apto)+'</div>'+(pg[apto]?'<span class="pill pago st">Pago</span>':'<span class="pill dev st">Devendo</span>')+'</div><h2>Recibo de rateio condomínio</h2>'+
+    '<p style="margin:0">Recebi do condômino a quantia de <b class="num">'+brl(cobrado(m))+'</b> referente às despesas de condomínio do Apto. <b>'+esc(apto)+'</b>, correspondente ao <b>mês de '+esc(nomeMes(m.id,true))+'</b>, com <b>vencimento em até '+dmy(m.venc)+'</b>.</p>'+
+    '<div class="recibo-line"><span>Mês de referência</span><b style="text-transform:capitalize">'+esc(nomeMes(m.id))+'</b></div>'+
+    '<div class="recibo-line"><span>Valor</span><b class="num">'+brl(cobrado(m))+'</b></div>'+
+    '<div class="recibo-line"><span>Vencimento</span><b class="num">'+dmy(m.venc)+'</b></div>'+
+    '<div class="sign">'+esc(c.colaborador)+' (Colaborador, Apto. '+esc(c.aptoColab)+')</div></div>'+
+    '<div class="recibo-cut"><span>✂ destaque aqui</span></div>'+
+    '<div class="recibo-foot"><span>PIX para pagamento: <code class="num">'+esc(c.pix)+'</code> ('+esc(c.banco)+')</span></div></article>';
+  h+='<div style="display:flex;gap:8px;flex-wrap:wrap">'+(ui.edit?'<button class="btn primary" data-a="pago" data-apto="'+esc(apto)+'">'+(pg[apto]?'Marcar como devendo':'Marcar como pago')+'</button>':'')+'<button class="btn" data-a="copiarecibo">Copiar texto do recibo</button>'+'<button class="btn primary" data-a="imprimir">🖨️ Imprimir recibo</button><button class="btn" data-a="baixarrecibo">Baixar PDF</button>'+'</div>';
+  return h;
+}
+
+function cardAviso(a){
+  return '<article class="aviso'+(a.urgente&&a.status!=='resolvido'?' urg':'')+(a.status==='resolvido'?' res':'')+'"><div class="ic" aria-hidden="true">'+esc(a.icone||'📌')+'</div>'+
+    '<h3>'+esc(a.titulo)+'</h3><p>'+esc(a.texto)+'</p>'+
+    '<div class="meta">'+(a.urgente&&a.status!=='resolvido'?'<span class="pill urg">Urgente</span>':'')+(a.status==='resolvido'?'<span class="pill res">Resolvido</span>':'')+'Publicado em '+dmy(a.data)+
+    (ui.edit?' · <button class="btn sm ghost" data-a="editaviso" data-id="'+a.id+'">Editar</button><button class="btn sm ghost" data-a="statusaviso" data-id="'+a.id+'">'+(a.status==='resolvido'?'Reabrir':'Marcar resolvido')+'</button><button class="btn sm ghost danger" data-a="delaviso" data-id="'+a.id+'">Excluir</button>':'')+'</div></article>';
+}
+
+function pAvisos(){
+  var h='';
+  if(ui.edit){
+    var a=ui.editAviso?state.avisos.filter(function(x){return x.id===ui.editAviso})[0]:null;
+    a=a||{icone:'📢',titulo:'',texto:'',urgente:false};
+    h+='<div class="card"><h3 style="font-size:17px;margin-bottom:10px">'+(ui.editAviso?'Editar aviso':'Novo aviso')+'</h3><div class="grid2">'+
+      '<div class="field"><label for="av-ic">Ícone</label><select id="av-ic">'+['📢','🚰','🏠','🚪','💡','🧹','🔧','🗑️','📅','⚠️','💰','🌿'].map(function(i){return '<option'+(i===a.icone?' selected':'')+'>'+i+'</option>'}).join('')+'</select></div>'+
+      '<div class="field"><label for="av-t">Título</label><input id="av-t" value="'+esc(a.titulo)+'" placeholder="Ex.: Limpeza da caixa d’água"></div></div>'+
+      '<div class="field" style="margin-top:12px"><label for="av-x">Texto</label><textarea id="av-x" rows="4">'+esc(a.texto)+'</textarea></div>'+
+      '<label class="chk" style="margin-top:10px"><input type="checkbox" id="av-u"'+(a.urgente?' checked':'')+'> Marcar como urgente</label>'+
+      '<div style="display:flex;gap:8px;margin-top:12px"><button class="btn primary" data-a="salvaraviso">'+(ui.editAviso?'Salvar aviso':'Adicionar aviso')+'</button>'+(ui.editAviso?'<button class="btn" data-a="cancelaraviso">Cancelar</button>':'')+'</div></div>';
+  }
+  var lista=state.avisos.slice().sort(function(x,y){var s=(x.status==='resolvido')-(y.status==='resolvido');return s||(x.data<y.data?1:-1)});
+  h+=lista.length?'<div class="avisos">'+lista.map(cardAviso).join('')+'</div>':'<div class="card empty">Nenhum aviso no momento.</div>';
+  return h;
+}
+
+function pHist(){
+  var o=mesesOrd();
+  if(!o.length) return '<div class="card empty">Sem meses lançados.</div>';
+  return '<div class="hist">'+o.map(function(m){return '<button data-a="vermes" data-id="'+m.id+'"><b>'+esc(nomeMes(m.id))+'</b><span class="num" style="font-weight:600">'+brl(cobrado(m))+' / apto</span><span class="meta">'+m.despesas.length+' despesas · total '+brl(total(m))+'</span><span class="meta">venc. '+dmy(m.venc)+'</span></button>'}).join('')+'</div>';
+}
+
+function pZap(m){
+  if(!m) return '<div class="card empty">Lance um mês primeiro.</div>';
+  var t=textoZap(m);
+  return '<div class="card"><div class="head-row"><div><div class="eyebrow">Pronto para colar no grupo</div><h2 style="font-size:20px">Comunicado de '+esc(nomeMes(m.id,true))+'</h2></div>'+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" data-a="copiazap">Copiar mensagem</button><a class="btn" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(t)+'">Abrir no WhatsApp</a></div></div>'+
+    '<pre class="zap" style="margin-top:12px">'+esc(t)+'</pre><p class="note">A mensagem junta o rateio do mês e os avisos em aberto.</p></div>';
+}
+
+function pLogin(){
+  return '<form class="card" id="form-login" style="max-width:380px;margin:0 auto;display:grid;gap:12px" autocomplete="on"><div><div class="eyebrow">Área restrita</div><h2 style="font-size:20px">Acesso do colaborador</h2></div>'+
+    '<div class="field"><label for="lg-u">Usuário</label><input id="lg-u" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>'+
+    '<div class="field"><label for="lg-s">Senha</label><input id="lg-s" name="password" type="password" autocomplete="current-password" required></div>'+
+    (ui.loginErro?'<p class="note" style="color:var(--warn);margin:0">'+esc(ui.loginErro)+'</p>':'')+
+    '<div style="display:flex;gap:8px"><button class="btn primary" type="submit">Entrar</button><button class="btn" type="button" data-tab="mes">Voltar</button></div></form>';
+}
+
+function pConfig(){
+  var c=state.config,tk=getToken();
+  return '<div class="card"><div class="eyebrow">Publicação no GitHub</div><p class="note" style="margin:4px 0 10px">Repositório <b>'+esc(GH.owner+'/'+GH.repo)+'</b>. '+(tk?'Token salvo neste aparelho.':'Nenhum token salvo neste aparelho. Sem ele, o botão Publicar não funciona.')+' O token fica só neste aparelho e nunca vai para o site.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="gh-token" type="password" autocomplete="off" placeholder="Cole aqui o token (github_pat_...)" value="'+esc(tk)+'" style="flex:1;min-width:200px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)"><button class="btn primary" data-a="salvartoken">Salvar token</button></div></div>'+
+    '<div class="card"><div class="grid2">'+
+    '<div class="field"><label for="c-predio">Nome do prédio</label><input id="c-predio" data-c="predio" value="'+esc(c.predio)+'"></div>'+
+    '<div class="field"><label for="c-aptos">Apartamentos (separados por vírgula)</label><input id="c-aptos" data-c="aptos" value="'+esc(c.aptos.join(', '))+'"></div>'+
+    '<div class="field"><label for="c-pix">Chave PIX</label><input id="c-pix" data-c="pix" value="'+esc(c.pix)+'"></div>'+
+    '<div class="field"><label for="c-banco">Banco</label><input id="c-banco" data-c="banco" value="'+esc(c.banco)+'"></div>'+
+    '<div class="field"><label for="c-col">Colaborador que assina</label><input id="c-col" data-c="colaborador" value="'+esc(c.colaborador)+'"></div>'+
+    '<div class="field"><label for="c-ac">Apto. do colaborador</label><input id="c-ac" data-c="aptoColab" value="'+esc(c.aptoColab)+'"></div>'+
+    '</div><p class="note">A divisão usa a quantidade de apartamentos desta lista ('+c.aptos.length+').</p></div>'+
+    '<div class="card"><div class="eyebrow">Códigos de acesso ao recibo</div><p class="note" style="margin:4px 0 0">Por segurança, os códigos não ficam salvos de forma legível. Se alguém esquecer, gere um novo, anote e publique. O código antigo para de funcionar.</p><div class="pagos">'+
+    c.aptos.map(function(a){var tem=(c.codigos||{})[a];return '<div class="pg"><b>Apto '+esc(a)+'</b>'+(ui.novos[a]?'<span style="color:var(--accent)">Novo: <span class="num" style="font-size:15px;color:var(--ink)">'+ui.novos[a]+'</span></span>':'<span style="color:'+(tem?'var(--ok)':'var(--warn)')+'">'+(tem?'Com código':'Sem código')+'</span>')+'<button class="btn sm" data-a="novocod" data-apto="'+esc(a)+'" style="margin-top:6px">'+(tem?'Gerar novo':'Gerar código')+'</button></div>'}).join('')+'</div></div>';
+}
+
+/* ---------- eventos ---------- */
+app.addEventListener('click',function(e){
+  var t=e.target.closest('[data-tab],[data-a]');if(!t)return;
+  if(t.dataset.tab){ui.tab=t.dataset.tab;render();return}
+  var a=t.dataset.a,m=mesAtual();
+  if(t.tagName==='SELECT')return;
+  switch(a){
+    case 'copiapix':copiar(state.config.pix,'Chave PIX copiada');break;
+    case 'abrirlogin':ui.tab='login';ui.loginErro='';render();var lu=$('#lg-u');if(lu)lu.focus();window.scrollTo(0,0);break;
+    case 'sair':ui.edit=false;try{sessionStorage.removeItem('colab')}catch(x){}if(ui.tab==='zap'||ui.tab==='config')ui.tab='mes';render();toast('Você saiu do modo colaborador');break;
+    case 'adddesp':m.despesas.push({d:'',venc:'',v:0});sujo();render();var i=$('#d-'+(m.despesas.length-1));if(i)i.focus();break;
+    case 'remdesp':m.despesas.splice(+t.dataset.i,1);sujo();render();break;
+    case 'arred':m.valorCobrado=Math.round(exato(m));sujo();render();break;
+    case 'novomes':novoMes();break;
+    case 'excluirmes':
+      if(t.dataset.confirm){state.meses=state.meses.filter(function(x){return x.id!==m.id});ui.sel=null;sujo();render()}
+      else{t.dataset.confirm='1';t.textContent='Confirmar exclusão de '+nomeMes(m.id,true);}
+      break;
+    case 'vermes':ui.sel=t.dataset.id;ui.tab='mes';render();window.scrollTo(0,0);break;
+    case 'pago':m.pagos=m.pagos||{};var ap=t.dataset.apto;if(m.pagos[ap])delete m.pagos[ap];else m.pagos[ap]=true;sujo();render();toast('Apto '+ap+': '+(m.pagos[ap]?'pago':'devendo'));break;
+    case 'copiarecibo':copiar(textoRecibo(m,aptoVisto()),'Recibo copiado');break;
+    case 'baixarrecibo':baixarRecibo(m);break;
+    case 'imprimir':window.print();break;
+    case 'salvartoken':var tk=$('#gh-token').value.trim();try{if(tk)localStorage.setItem('gh_token',tk);else localStorage.removeItem('gh_token')}catch(x){}toast(tk?'Token salvo neste aparelho':'Token removido');render();break;
+    case 'sairapto':ui.acesso=null;ui.aptoErro='';try{localStorage.removeItem('acesso')}catch(x){}render();break;
+    case 'novocod':novoCodigo(t.dataset.apto);break;
+    case 'copiazap':copiar(textoZap(m),'Mensagem copiada');break;
+    case 'salvaraviso':salvarAviso();break;
+    case 'cancelaraviso':ui.editAviso=null;render();break;
+    case 'editaviso':ui.editAviso=t.dataset.id;ui.tab='avisos';render();window.scrollTo(0,0);break;
+    case 'statusaviso':state.avisos.forEach(function(x){if(x.id===t.dataset.id)x.status=x.status==='resolvido'?'ativo':'resolvido'});sujo();render();break;
+    case 'delaviso':
+      if(t.dataset.confirm){state.avisos=state.avisos.filter(function(x){return x.id!==t.dataset.id});sujo();render()}
+      else{t.dataset.confirm='1';t.textContent='Confirmar exclusão'}
+      break;
+    case 'publicar':publicar();break;
+  }
+});
+app.addEventListener('submit',function(e){
+  if(e.target.id==='form-apto'){
+    e.preventDefault();
+    var ap=$('#ap-sel').value,cod=$('#ap-cod').value.trim(),cods=state.config.codigos||{};
+    if(!window.crypto||!crypto.subtle){ui.aptoErro='Este navegador não permite o acesso. Tente outro navegador.';render();return}
+    if(!cods[ap]){ui.aptoErro='Este apartamento ainda não tem código. Fale com o colaborador.';render();return}
+    hashApto(ap,cod).then(function(h){
+      if(h===cods[ap]){ui.acesso={apto:ap,hash:h};ui.aptoErro='';try{localStorage.setItem('acesso',JSON.stringify(ui.acesso))}catch(x){}render()}
+      else{ui.aptoErro='Código incorreto para o apto. '+ap+'.';render();var sel=$('#ap-sel');if(sel)sel.value=ap;var ci=$('#ap-cod');if(ci)ci.focus()}
+    });
+    return;
+  }
+  if(e.target.id!=='form-login')return;
+  e.preventDefault();
+  var u=$('#lg-u').value.trim(),s=$('#lg-s').value;
+  if(!window.crypto||!crypto.subtle){ui.loginErro='Este navegador não permite o login. Tente outro navegador.';render();return}
+  sha256(u+':'+s).then(function(h){
+    if(h===LOGIN_HASH){ui.edit=true;ui.loginErro='';ui.tab='mes';try{sessionStorage.setItem('colab',h)}catch(x){}render();toast('Bem-vindo, colaborador')}
+    else{ui.loginErro='Usuário ou senha incorretos.';render();var ls=$('#lg-s');if(ls)ls.focus()}
+  });
+});
+app.addEventListener('change',function(e){
+  var t=e.target;
+  if(t.id==='apto'){ui.apto=t.value||null;try{localStorage.setItem('apto',ui.apto||'')}catch(x){}render();return}
+  if(t.dataset.c){var k=t.dataset.c;state.config[k]=k==='aptos'?t.value.split(',').map(function(s){return s.trim()}).filter(Boolean):t.value;sujo();render();return}
+  if(t.dataset.m==='venc'){mesAtual().venc=t.value;sujo();render();return}
+  if(t.type==='date'&&t.dataset.f){mesAtual().despesas[+t.dataset.i].venc=t.value;sujo();render()}
+});
+app.addEventListener('input',function(e){
+  var t=e.target,m=mesAtual();if(!m)return;
+  if(t.dataset.f&&t.type!=='date'){var x=m.despesas[+t.dataset.i];x[t.dataset.f]=t.dataset.f==='v'?parseFloat(t.value)||0:t.value;atualizaTotais(m)}
+  if(t.dataset.m==='valorCobrado'){m.valorCobrado=t.value===''?null:parseFloat(t.value);atualizaTotais(m)}
+});
+function atualizaTotais(m){
+  var a=$('#tot'),b=$('#cob'),c=$('#exato');if(a)a.textContent=brl(total(m));if(b)b.textContent=brl(cobrado(m));
+  if(c&&c.firstChild)c.firstChild.nodeValue='Valor exato da divisão: '+brl(exato(m))+'. ';
+  var big=$('.big');if(big)big.textContent=brl(cobrado(m));
+  if(!ui.dirty){ui.dirty=true;if(!$('.bar'))app.insertAdjacentHTML('beforeend','<div class="bar"><span>Você tem alterações não publicadas.</span><button class="btn" data-a="publicar">Publicar para os moradores</button></div>')}
+}
+function novoMes(){
+  var o=mesesOrd(),ult=o[0],id;
+  if(ult){var p=ult.id.split('-').map(Number);p[1]++;if(p[1]>12){p[1]=1;p[0]++}id=p[0]+'-'+String(p[1]).padStart(2,'0')}
+  else{var d=new Date();id=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+  if(state.meses.some(function(x){return x.id===id}))return;
+  var py=+id.slice(0,4),pm=+id.slice(5)+1;if(pm>12){pm=1;py++}
+  state.meses.push({id:id,venc:py+'-'+String(pm).padStart(2,'0')+'-11',valorCobrado:null,
+    despesas:ult?ult.despesas.map(function(x){return {d:x.d,venc:'',v:x.v}}):[]});
+  ui.sel=id;sujo();render();toast('Mês de '+nomeMes(id,true)+' criado com as despesas do mês anterior. Ajuste os valores.');
+}
+function salvarAviso(){
+  var t=$('#av-t').value.trim(),x=$('#av-x').value.trim();if(!t){toast('Dê um título ao aviso');return}
+  var dados={icone:$('#av-ic').value,titulo:t,texto:x,urgente:$('#av-u').checked};
+  if(ui.editAviso){state.avisos.forEach(function(a){if(a.id===ui.editAviso)Object.assign(a,dados)})}
+  else{var d=new Date();dados.id='a'+Date.now();dados.status='ativo';dados.data=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');state.avisos.push(dados)}
+  ui.editAviso=null;sujo();render();toast('Aviso salvo. Publique para os moradores verem.');
+}
+function aptoVisto(){return ui.edit?ui.apto:(ui.acesso&&ui.acesso.apto)}
+function novoCodigo(apto){
+  if(!window.crypto||!crypto.subtle){toast('Este navegador não gera códigos');return}
+  var r=new Uint32Array(1);crypto.getRandomValues(r);var cod=String(r[0]%10000).padStart(4,'0');
+  hashApto(apto,cod).then(function(h){state.config.codigos=state.config.codigos||{};state.config.codigos[apto]=h;ui.novos[apto]=cod;sujo();render();toast('Novo código do apto. '+apto+': '+cod)});
+}
+var jspdfP=null;
+function carregarPdf(){
+  if(window.jspdf)return Promise.resolve(window.jspdf.jsPDF);
+  if(!jspdfP)jspdfP=new Promise(function(ok,no){var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=function(){window.jspdf?ok(window.jspdf.jsPDF):no()};s.onerror=function(){jspdfP=null;no()};document.head.appendChild(s)});
+  return jspdfP;
+}
+function baixarRecibo(m){var apto=aptoVisto();if(!apto)return;toast('Gerando PDF…');gerarPdf(m,apto)}
+function gerarPdf(m,apto){
+  var c=state.config,pago=!!(m.pagos||{})[apto];
+  return carregarPdf().then(function(JsPDF){
+    var d=new JsPDF({unit:'mm',format:'a4'}),L=20,R=190,y=24;
+    d.setFont('helvetica','bold');d.setFontSize(10);d.setTextColor(90,107,103);
+    d.text((c.predio+'  ·  Apartamento '+apto).toUpperCase(),L,y);
+    d.setFillColor.apply(d,pago?[46,125,79]:[163,90,0]);d.roundedRect(R-30,y-5.5,30,8,4,4,'F');
+    d.setTextColor(255,255,255);d.setFontSize(10);d.text(pago?'PAGO':'DEVENDO',R-15,y,{align:'center'});
+    y+=14;d.setTextColor(22,33,31);d.setFontSize(16);d.text('RECIBO DE RATEIO CONDOMÍNIO',L,y);
+    y+=12;d.setFont('helvetica','normal');d.setFontSize(12);
+    var txt='Recebi do condômino a quantia de '+brl(cobrado(m))+' referente às despesas de condomínio do Apto. '+apto+', correspondente ao mês de '+nomeMes(m.id,true)+', com vencimento em até '+dmy(m.venc)+'.';
+    var linhas=d.splitTextToSize(txt,R-L);d.text(linhas,L,y);y+=linhas.length*6+8;
+    [['Mês de referência',nomeMes(m.id)],['Valor',brl(cobrado(m))],['Vencimento',dmy(m.venc)]].forEach(function(r){
+      d.setFont('helvetica','normal');d.text(r[0],L,y);d.setFont('helvetica','bold');d.text(r[1],R,y,{align:'right'});
+      d.setDrawColor(200,210,207);d.setLineDashPattern([0.5,1],0);d.line(L,y+2.5,R,y+2.5);y+=10;
+    });
+    y+=22;d.setLineDashPattern([],0);d.setDrawColor(22,33,31);d.line(L,y,L+85,y);
+    d.setFont('helvetica','normal');d.setFontSize(10);d.text(c.colaborador+' (Colaborador, Apto. '+c.aptoColab+')',L,y+5);
+    y+=20;d.setDrawColor(150,160,157);d.setLineDashPattern([2,2],0);d.line(L-5,y,R+5,y);
+    d.setFontSize(8);d.setTextColor(120,130,127);d.text('destaque aqui',L,y-2);
+    y+=10;d.setTextColor(22,33,31);d.setFontSize(11);d.text('PIX para pagamento: '+c.pix+' ('+c.banco+')',L,y);
+    var blob=d.output('blob');
+    d.save('Recibo_Apto'+apto+'_'+m.id+'.pdf');toast('PDF baixado');
+  },function(){toast('Não foi possível gerar o PDF. Verifique a internet.')});
+}
+function b64(str){return btoa(unescape(encodeURIComponent(str)))}
+function publicar(){
+  if(ui.saving)return;
+  var tk=getToken();
+  if(!tk){ui.tab='config';render();toast('Cole seu token do GitHub em Configurações');return}
+  ui.saving=true;render();
+  var H={'Authorization':'Bearer '+tk,'Accept':'application/vnd.github+json'};
+  fetch(API+'?ref='+GH.branch+'&t='+Date.now(),{headers:H,cache:'no-store'})
+    .then(function(r){if(r.status===404)return {};if(!r.ok)throw r.status;return r.json()})
+    .then(function(j){return fetch(API,{method:'PUT',headers:H,body:JSON.stringify({message:'Atualiza portal ('+new Date().toLocaleString('pt-BR')+')',content:b64(JSON.stringify(state,null,1)),sha:j.sha,branch:GH.branch})})})
+    .then(function(r){if(!r.ok)throw r.status;ui.saving=false;ui.dirty=false;render();toast('Publicado. Os moradores veem em cerca de 1 minuto.')})
+    .catch(function(s){ui.saving=false;render();toast(s===401||s===403?'Token inválido ou sem permissão. Confira em Configurações.':s===409?'O arquivo mudou. Recarregue a página e tente de novo.':'Não foi possível publicar. Verifique a internet.')});
+}
+function carregar(){
+  var tk=getToken(),p;
+  if(tk){p=fetch(API+'?ref='+GH.branch+'&t='+Date.now(),{headers:{'Authorization':'Bearer '+tk,'Accept':'application/vnd.github.raw+json'},cache:'no-store'}).then(function(r){if(!r.ok)throw r.status;return r.json()})}
+  else p=Promise.reject();
+  p.catch(function(){return fetch('dados.json?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw r.status;return r.json()})})
+   .then(function(d){state=d;state.meses=state.meses||[];state.avisos=state.avisos||[];render()})
+   .catch(function(){app.innerHTML='<div class="card empty">Não foi possível carregar os dados do portal. Verifique a internet e recarregue a página.</div>'});
+}
+carregar();
+})();
+</script>
+</body>
+</html>

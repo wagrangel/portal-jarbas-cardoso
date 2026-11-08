@@ -1,0 +1,95 @@
+{
+ "config": {
+  "predio": "Edifício Jarbas Cardoso",
+  "aptos": [
+   "201",
+   "202",
+   "203",
+   "204",
+   "301",
+   "302",
+   "303",
+   "304"
+  ],
+  "pix": "wagrangel@gmail.com",
+  "banco": "Banco Bradesco",
+  "colaborador": "Wagner Rangel",
+  "aptoColab": "303",
+  "codigos": {
+   "201": "b3ccb7b4f8fe03f6e126dc42469f5c2cf3e1da78835d13dbed918f705541c5fe",
+   "202": "052f42f134365762c8289c638266ea02e965ff4b4069b18b13f98a89b85f2d8b",
+   "203": "92edb4ddf9c9d8b16c0468041ea56ca92d8c1d233a14b93242e13bfc4743c183",
+   "204": "7bba46cee6da03b45e7ee9ce671d2656ebdce9cf4ba111f148ab4280e491b363",
+   "301": "7920b2e6d645ef9acce8a6b3af2d7b65296b16dfc035f8a1d2c01a5d2337d16f",
+   "302": "ff47e4b221f060b6bb621c8d823254877c63109c9ecd73e3c024b0aaa1b3295e",
+   "303": "83d09349e2b453218a0eee858451884b010c6ada29656d50b718f2e4c5552f9a",
+   "304": "d406064ee01c5132f31ce26c05d1e938295e3a7b445e3e30f1d4736585550bc5"
+  }
+ },
+ "meses": [
+  {
+   "id": "2026-09",
+   "venc": "2026-10-11",
+   "valorCobrado": 332,
+   "despesas": [
+    {
+     "d": "Conta de luz",
+     "venc": "2026-09-23",
+     "v": 186.4
+    },
+    {
+     "d": "Conta de água e esgoto",
+     "venc": "2026-09-17",
+     "v": 2085.68
+    },
+    {
+     "d": "Pagamento faxina",
+     "venc": "2026-10-15",
+     "v": 200
+    },
+    {
+     "d": "Material de limpeza",
+     "venc": "",
+     "v": 50
+    },
+    {
+     "d": "Sr. Paulo: corte da grama (material R$ 54,00 + mão de obra R$ 80,00)",
+     "venc": "",
+     "v": 134
+    }
+   ],
+   "pagos": {
+    "303": true
+   }
+  }
+ ],
+ "avisos": [
+  {
+   "id": "a1",
+   "icone": "🚰",
+   "titulo": "Bica da garagem aberta",
+   "texto": "Tenho encontrado a bica da garagem aberta. Peço a colaboração de todos para que, ao perceberem, verifiquem e fechem, evitando desperdício de água.",
+   "data": "2026-10-01",
+   "urgente": false,
+   "status": "ativo"
+  },
+  {
+   "id": "a2",
+   "icone": "🏠",
+   "titulo": "Vazamento no telhado",
+   "texto": "Estamos com vazamento no telhado, causando infiltração nos apartamentos do último andar. Precisamos com urgência de orçamentos para o reparo da beira do telhado. Quem tiver indicação de profissional ou puder solicitar um orçamento, agradeço.",
+   "data": "2026-10-01",
+   "urgente": true,
+   "status": "ativo"
+  },
+  {
+   "id": "a3",
+   "icone": "🚪",
+   "titulo": "Motor do portão da garagem",
+   "texto": "Precisamos de orçamentos para o reparo ou manutenção do motor do portão da garagem. A ideia é levantarmos alguns orçamentos para avaliar e definir os reparos, evitando que o problema se agrave e gere custos maiores para todos.",
+   "data": "2026-10-01",
+   "urgente": false,
+   "status": "ativo"
+  }
+ ]
+}
