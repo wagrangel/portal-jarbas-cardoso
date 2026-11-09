@@ -74,15 +74,6 @@
    "status": "ativo"
   },
   {
-   "id": "a2",
-   "icone": "🏠",
-   "titulo": "Vazamento no telhado",
-   "texto": "Estamos com vazamento no telhado, causando infiltração nos apartamentos do último andar. Precisamos com urgência de orçamentos para o reparo da beira do telhado. Quem tiver indicação de profissional ou puder solicitar um orçamento, agradeço.",
-   "data": "2026-10-01",
-   "urgente": true,
-   "status": "ativo"
-  },
-  {
    "id": "a3",
    "icone": "🚪",
    "titulo": "Motor do portão da garagem",
