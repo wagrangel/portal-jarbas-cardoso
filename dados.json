@@ -72,15 +72,6 @@
    "data": "2026-10-01",
    "urgente": false,
    "status": "ativo"
-  },
-  {
-   "id": "a3",
-   "icone": "🚪",
-   "titulo": "Motor do portão da garagem",
-   "texto": "Precisamos de orçamentos para o reparo ou manutenção do motor do portão da garagem. A ideia é levantarmos alguns orçamentos para avaliar e definir os reparos, evitando que o problema se agrave e gere custos maiores para todos.",
-   "data": "2026-10-01",
-   "urgente": false,
-   "status": "ativo"
   }
  ]
 }
