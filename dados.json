@@ -69,27 +69,27 @@
    "despesas": [
     {
      "d": "Conta de luz",
-     "venc": "",
+     "venc": "2026-10-23",
      "v": 177.01
     },
     {
      "d": "Conta de água e esgoto",
-     "venc": "",
+     "venc": "2026-10-17",
      "v": 2080
     },
     {
      "d": "Pagamento faxina",
-     "venc": "",
+     "venc": "2026-11-15",
      "v": 200
     },
     {
      "d": "Material de limpeza",
-     "venc": "",
+     "venc": "2026-11-15",
      "v": 50
     },
     {
-     "d": "Sr. Paulo: corte da grama (material R$ 54,00 + mão de obra R$ 80,00)",
-     "venc": "",
+     "d": "Conserto do Portão.",
+     "venc": "2026-10-17",
      "v": 317
     }
    ],
