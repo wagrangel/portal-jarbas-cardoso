@@ -30,17 +30,17 @@
   {
    "id": "2026-09",
    "venc": "2026-10-11",
-   "valorCobrado": 332,
+   "valorCobrado": 353,
    "despesas": [
     {
      "d": "Conta de luz",
      "venc": "2026-09-23",
-     "v": 186.4
+     "v": 177.01
     },
     {
      "d": "Conta de água e esgoto",
      "venc": "2026-09-17",
-     "v": 2085.68
+     "v": 2080
     },
     {
      "d": "Pagamento faxina",
@@ -55,7 +55,7 @@
     {
      "d": "Sr. Paulo: corte da grama (material R$ 54,00 + mão de obra R$ 80,00)",
      "venc": "",
-     "v": 134
+     "v": 317
     }
    ],
    "pagos": {
